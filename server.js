@@ -40,21 +40,6 @@ var surveyQs = [
     }
 ];
 
-var friends = [
-    {
-        name: 'Reeve',
-        photo: '',
-        scores: [5, 2, 3, 4, 1, 4, 5, 3, 5, 2],
-        compatScore: 0
-    },
-    {
-        name: 'John',
-        photo: '',
-        scores: [5, 4, 3, 2, 1, 5, 4, 3, 2, 1],
-        compatScore: 0
-    }
-];
-
 function determineCompatiblity(user) {
     var results = user.scores;
 
@@ -66,10 +51,18 @@ function determineCompatiblity(user) {
     for(i = 0; i < friends.length; i++) {
         for(j = 0; j < friends.length; j++) {
             if(friends[i].compatScore < friends[j].compatScore) {
-                
+                tempVar = friends[i];
+                friends[i] = friends[j];
+                friends[j] = tempVar;
             }
         }
     }
-}
 
-determineCompatiblity(friends[0])
+    for(i = 1; i < friends.length; i++) {
+        if(friends[i].compatScore === friends[i-1].compatScore) {
+            console.log(friends[i] + friends[i-1]);
+        } else {
+            console.log(friends[i-1]);
+        }
+    }
+}
