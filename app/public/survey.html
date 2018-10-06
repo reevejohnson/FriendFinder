@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Survey</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Take this survey and find a new friend!</h1>
+
+    <p>The following survey lists the names of some well-known people.</p>
+    <p>Select a 1 if you do not like the person at all and select a 5 if you like the person a lot. </p>
+    <p>Choose 3 if you are indifferent.</p>
+
+    <form name='survey'>
+        Your first name: <input id='first-name' type='text' name='first-name'/>
+        Link to a photo of yourself: <input id='photo-url' type='text' name='photo-url'/>
+        <br>
+        How much do you like Beyoncé?
+        <br>
+            <input type='radio' name='rating1' id='rating1' value='1'>1
+            <input type='radio' name='rating1' id='rating1' value='2'>2
+            <input type='radio' name='rating1' id='rating1' value='3'>3
+            <input type='radio' name='rating1' id='rating1' value='4'>4
+            <input type='radio' name='rating1' id='rating1' value='5'>5
+        <br>
+        How much do you like Donald Trump?
+        <br>
+            <input type='radio' name='rating2' id='rating2' value='1'>1
+            <input type='radio' name='rating2' id='rating2' value='2'>2
+            <input type='radio' name='rating2' id='rating2' value='3'>3
+            <input type='radio' name='rating2' id='rating2' value='4'>4
+            <input type='radio' name='rating2' id='rating2' value='5'>5
+        <br>
+        How much do you like Emma Stone?
+        <br>
+            <input type='radio' name='rating3' id='rating3' value='1'>1
+            <input type='radio' name='rating3' id='rating3' value='2'>2
+            <input type='radio' name='rating3' id='rating3' value='3'>3
+            <input type='radio' name='rating3' id='rating3' value='4'>4
+            <input type='radio' name='rating3' id='rating3' value='5'>5
+        <br>
+        How much do you like James Baldwin?
+        <br>
+            <input type='radio' name='rating4' id='rating4' value='1'>1
+            <input type='radio' name='rating4' id='rating4' value='2'>2
+            <input type='radio' name='rating4' id='rating4' value='3'>3
+            <input type='radio' name='rating4' id='rating4' value='4'>4
+            <input type='radio' name='rating4' id='rating4' value='5'>5
+        <br>
+        How much do you like RuPaul?
+        <br>
+            <input type='radio' name='rating5' id='rating5' value='1'>1
+            <input type='radio' name='rating5' id='rating5' value='2'>2
+            <input type='radio' name='rating5' id='rating5' value='3'>3
+            <input type='radio' name='rating5' id='rating5' value='4'>4
+            <input type='radio' name='rating5' id='rating5' value='5'>5
+        <br>
+        How much do you like Antonio Banderas?
+        <br>
+            <input type='radio' name='rating6' id='rating6' value='1'>1
+            <input type='radio' name='rating6' id='rating6' value='2'>2
+            <input type='radio' name='rating6' id='rating6' value='3'>3
+            <input type='radio' name='rating6' id='rating6' value='4'>4
+            <input type='radio' name='rating6' id='rating6' value='5'>5
+        <br>
+        How much do you like Kimberlé Crenshaw?
+        <br>
+            <input type='radio' name='rating7' id='rating7' value='1'>1
+            <input type='radio' name='rating7' id='rating7' value='2'>2
+            <input type='radio' name='rating7' id='rating7' value='3'>3
+            <input type='radio' name='rating7' id='rating7' value='4'>4
+            <input type='radio' name='rating7' id='rating7' value='5'>5
+        <br>
+        How much do you like Walt Disney?
+        <br>
+            <input type='radio' name='rating8' id='rating8' value='1'>1
+            <input type='radio' name='rating8' id='rating8' value='2'>2
+            <input type='radio' name='rating8' id='rating8' value='3'>3
+            <input type='radio' name='rating8' id='rating8' value='4'>4
+            <input type='radio' name='rating8' id='rating8' value='5'>5
+        <br>
+        How much do you like Michelle Obama?
+        <br>
+            <input type='radio' name='rating9' id='rating9' value='1'>1
+            <input type='radio' name='rating9' id='rating9' value='2'>2
+            <input type='radio' name='rating9' id='rating9' value='3'>3
+            <input type='radio' name='rating9' id='rating9' value='4'>4
+            <input type='radio' name='rating9' id='rating9' value='5'>5
+        <br>
+        How much do you like yourself?
+        <br>
+            <input type='radio' name='rating10' id='rating10' value='1'>1
+            <input type='radio' name='rating10' id='rating10' value='2'>2
+            <input type='radio' name='rating10' id='rating10' value='3'>3
+            <input type='radio' name='rating10' id='rating10' value='4'>4
+            <input type='radio' name='rating10' id='rating10' value='5'>5
+        <br>
+
+        <input type='submit' class='submit' value='Submit your answers'>
+    </form>
+
+    <br><br>
+
+    <div>
+        <span id='match-name'></span>
+        <br>
+        <img id='match-photo'/>
+    </div>
+
+    <br><br>
+
+    <a href='/'><button>Click here to return home.</button></a>
+</body>
+</html>
+
+<script type="text/javascript">
+    $('.submit').on('click', function(event) {
+        event.preventDefault();
+
+        var scoreArray = [];
+        for(i = 1; i < 11; i++) {
+            scoreArray.push($(`input[name='rating${i}']:checked`).val());
+        }
+
+        var newFriend = {
+            name: $('#first-name').val().trim(),
+            photo: $('#photo-url').val().trim(),
+            scores: scoreArray
+        }
+
+        determineCompatiblity(newFriend);
+
+        $.post("/api/friends", newFriend,
+            function(data) {
+                $("#first-name").val("");
+                $("#photo-url").val("");
+                for(i = 0; i < 10; i++) {
+                    $(`input[name="rating${i}"]`).prop('checked', false);
+                }
+            });
+    })
+
+    function determineCompatiblity(user) {
+        var results = user.scores;
+
+        $.get('/api/friends', function(data) {
+            var friends = data;
+             
+            for(i = 0; i < friends.length; i++) {
+                var friendScores = friends[i].scores;
+                var differenceArray = [];
+                for(j = 0; j < friendScores.length; j++) {
+                    differenceArray.push(Math.abs(parseInt(results[j]) - parseInt(friendScores[j])));
+                }
+                friends[i].differenceArray = differenceArray;
+            }
+
+            for (i = 0; i < friends.length; i++) {
+                var diffArray = friends[i].differenceArray;
+                var sum = 0;
+
+                for (j = 0; j < diffArray.length; j++) {
+                    sum += parseInt(diffArray[j], 10);
+                }
+
+                var compatScore = sum / diffArray.length;
+
+                friends[i].compatScore = compatScore;
+            }
+
+            for(i = 0; i < friends.length; i++) {
+                for(j = 0; j < friends.length; j++) {
+                    if(friends[i].compatScore < friends[j].compatScore) {
+                        tempVar = friends[i];
+                        friends[i] = friends[j];
+                        friends[j] = tempVar;
+                    }
+                }
+            }
+
+            var match = friends[0];
+
+            $('#match-name').append(`You matched with ${match.name}!`)
+            $('#match-photo').attr('src', match.photo)
+         })
+    }
+</script>
